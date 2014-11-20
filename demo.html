@@ -2,7 +2,15 @@
 <head>
     <title>onElementResize Demo</title>
     <link rel="stylesheet" href="example.css" />
-    <script src="onElementResize.js" />
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="onElementResize.js"></script>
+    <script>
+        $(function(){
+            $('.testItem').onElementResize(function($item){
+                console.log($item[0].offsetWidth+"x"+$item.height());//use $item[0] if you want the normal js element $item for jquery
+            });
+        });
+    </script>
 </head>
 <body>
     <div id="testdiv" class="testItem">This div grows on hover.</div>
