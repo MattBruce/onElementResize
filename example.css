@@ -1,0 +1,18 @@
+body {
+  padding: 20px;
+  font-family: sans-serif;
+}
+#testdiv, .testItem {
+  padding: 20px; 
+  margin:20px; 
+  background-color: #dddddd;
+}
+#testdiv {
+  transition: all 0.5s ease;
+}
+#testdiv:hover {
+  padding:50px 20px;
+}
+.resizable {
+  width:200px; resize: both; overflow: auto;
+}
