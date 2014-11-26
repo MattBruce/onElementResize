@@ -1,7 +1,9 @@
+html, body {margin:0;}
 body {
   padding: 20px;
   font-family: sans-serif;
 }
+iframe {width:100%;}
 #testdiv, .testItem {
   padding: 20px; 
   margin:20px; 
