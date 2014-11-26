@@ -1,4 +1,4 @@
-/* onElementResize.0.2.1.js */
+/* onElementResize.0.3.js */
 //use requestAnimationFrame for smoothness (shimmed with setTimeout fallback)
 window.rAF = window.rAF || (function(){
   return  window.requestAnimationFrame       ||
