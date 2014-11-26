@@ -2,18 +2,35 @@
 <head>
     <title>onElementResize Demo</title>
     <link rel="stylesheet" href="example.css" />
-    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="onElementResize.js"></script>
-    <script>
-        $(function(){
-            $('.testItem').onElementResize(function($item){
-                console.log($item[0].offsetWidth+"x"+$item.height());//use $item[0] if you want the normal js element $item for jquery
-            });
-        });
-    </script>
+    <script type='text/javascript' src='http://code.jquery.com/jquery-1.11.0.js'></script>
+    <script type='text/javascript' src='onElementResize.0.2.d.js'></script>
+<script>
+$(function(){
+    $(".testItem").onElementResize(function($el,w,h){
+        //do something on element resize
+        console.log("#"+$el.attr("id")+" resized to: "+w+"x"+h);
+    });
+    //EXAMPLE:
+    //Poll for iFrame content changes and resize the iframe itself to fit it all in:
+    //(note, onElementResize now waits for the iframe to load :)
+    /*TODO IE BUGS HERE
+    Cannot scroll down! it just bounces back to top!!!
+    $("iframe").css("overflow","hidden").prop("scrolling","no");//ensure we dont get any scrollbars
+    $("iframe").contents().find('body').css("overflow","hidden");
+    */
+    $("iframe").onElementResize(function($el,w,h){
+        //do something on element resize
+        console.log("#"+$el.attr("id")+" resized to: "+w+"x"+h);
+        $el.css("height",h);//set the height of the iframe to match
+    });
+})
+</script>
 </head>
 <body>
     <div id="testdiv" class="testItem">This div grows on hover.</div>
-    <div id="testdiv2" class="testItem resizable">This div is resizable. Check the console.</div>
+    <div id="testdiv2" class="testItem resizable">This div is resizable (if supported by your browser).</div>
+    <div id="testdiv3" class="testItem" contenteditable="true">This div is content-editable (if supported by your browser).</div>
+    <p>This iFrame should automatically resize to fit its contents.</p>
+    <iframe id="testiframe" name="ifr" src="iframe.html" />
 </body>
 </html>
