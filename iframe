@@ -1,0 +1,19 @@
+<html>
+<head>
+<title>iFrame</title>
+<style>
+    html, body {margin:0;}
+    body {padding: 20px; font-family: sans-serif; }
+    iframe {width:100%;}
+    #testdiv, .testItem {padding:20px; margin:20px; background-color: #dddddd;}
+    #testdiv {transition: all 0.5s ease;}
+    #testdiv:hover {padding:50px 20px;}
+    .resizable {width:200px; resize:both; overflow:auto;}
+</style>
+</head>
+<body>
+    <div id="testdiv" class="testItem">This div grows on hover.</div>
+    <div id="testdiv2" class="testItem resizable">This div is resizable (if supported by your browser).</div>
+    <div id="testdiv3" class="testItem" contenteditable="true">This div is content-editable (if supported by your browser).</div>
+</body>
+</html>
