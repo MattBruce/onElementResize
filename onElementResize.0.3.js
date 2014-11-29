@@ -1,11 +1,12 @@
-/* onElementResize.0.3.js */
+/* onElementResize.0.2.d.js */
 //use requestAnimationFrame for smoothness (shimmed with setTimeout fallback)
 window.rAF = window.rAF || (function(){
   return  window.requestAnimationFrame       ||
 		  window.webkitRequestAnimationFrame ||
 		  window.mozRequestAnimationFrame    ||
 		  function( callback ){
-			  window.setTimeout(callback, 1000 / 60);
+		  		window.oldschool = true;
+				window.setTimeout(callback, 1000 / 30);
 		  };
 })();
 
@@ -24,6 +25,14 @@ window.rAF = window.rAF || (function(){
 				//IFRAME might not be loaded!
 				if (!$el.contents().find('body').children().length > 0) {
 					//console.warn("iframe not ready");
+					//(possibly this would never be ready so abort after x seconds)
+					var now = new Date().getTime();
+					var diff = now - ($el.data("timer") || now);
+					if(diff>=10000){//taking too long (allow 10 seconds)
+						if(console && console.warn){console.warn("onElementResize iFrame taking too long to load!");}
+						return false;
+					}
+					$el.data("timer",now);
 					return $el.load(function(){$el.onElementResize(callback);});
 				}
 				//set el to be the iframe            
@@ -40,13 +49,19 @@ window.rAF = window.rAF || (function(){
 			}
 			//set up a loop
 			(function loop(){
+				//IE8 jumps to top(ish) EVERY TIME the css.height set/removed because the iframe collapses thus changes the depth of the page
+				var cache_height = $el.prop('style').height;//if the el has a height cache it...
+					cache_marginBottom= $el.prop('style').marginBottom;//for IE so that the overall height taken up by the iframe does not change whilst measuring
 
-				var cache = $el.prop('style').height;//if the el has a height cache it...
 				$el.css("height","");//temp remove the css height whilst measuring
+				if(iFrame){//if slow browser set the bottom margin so that the page doesnt bounce
+					$el.css("margin-bottom",cache_height);
+				}
 				var currentWidth = Math.max(el.offsetWidth, el.scrollWidth),
 					currentHeight = Math.max(el.offsetHeight, el.scrollHeight);
-				if(cache){
-					$el.css("height",cache);//...then put it back
+				if(cache_height){
+					$el.css("height",cache_height);//...then put it back
+					if(iFrame){$el.css("margin-bottom",cache_marginBottom);}//if slow browser reset the bottom margin
 				}
 				if(currentWidth!==width || currentHeight!==height){
 					callback($el, currentWidth, currentHeight);
